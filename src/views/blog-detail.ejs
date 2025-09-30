@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= post.title %> - My Blog
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <style>
+        .blog-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0 60px;
+        }
+
+        .blog-meta {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .blog-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .blog-content h3 {
+            color: #2c3e50;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .blog-content h4 {
+            color: #34495e;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .blog-content pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .blog-content code {
+            background: #f8f9fa;
+            color: #e83e8c;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .blog-content pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .tag-badge {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tag-badge:hover {
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 30px;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+
+        .share-buttons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .share-buttons a:hover {
+            transform: scale(1.1);
+            text-decoration: none;
+            color: white;
+        }
+
+        .share-facebook {
+            background: #3b5998;
+        }
+
+        .share-twitter {
+            background: #1da1f2;
+        }
+
+        .share-linkedin {
+            background: #0077b5;
+        }
+
+        .share-copy {
+            background: #6c757d;
+        }
+
+        .comment-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .comment-form textarea {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+        }
+
+        .comment-form textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .comment-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .comment-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        .related-posts {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .related-post {
+            padding: 15px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .related-post:last-child {
+            border-bottom: none;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .back-to-top.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand text-primary" href="/">
+                <i class="fas fa-blog"></i> My Blog
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Liên hệ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb justify-content-center bg-transparent">
+                            <li class="breadcrumb-item"><a href="/" class="text-white">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="/blog" class="text-white">Blog</a></li>
+                            <li class="breadcrumb-item active text-white-50" aria-current="page">
+                                <%= post.category %>
+                            </li>
+                        </ol>
+                    </nav>
+                    <h1 class="display-5 fw-bold mb-4">
+                        <%= post.title %>
+                    </h1>
+                    <div class="blog-meta text-white-50">
+                        <i class="fas fa-user me-2"></i>
+                        <%= post.author %>
+                            <i class="fas fa-calendar ms-4 me-2"></i>
+                            <%= post.date %>
+                                <i class="fas fa-eye ms-4 me-2"></i>
+                                <%= post.views %> lượt xem
+                                    <i class="fas fa-comments ms-4 me-2"></i>
+                                    <%= post.comments %> bình luận
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Share Buttons -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <a href="/blog" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-2"></i>Quay lại Blog
+                        </a>
+                        <div class="share-buttons">
+                            <a href="#" class="share-facebook" onclick="shareOnSocial('facebook')"
+                                title="Chia sẻ lên Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="share-twitter" onclick="shareOnSocial('twitter')"
+                                title="Chia sẻ lên Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="share-linkedin" onclick="shareOnSocial('linkedin')"
+                                title="Chia sẻ lên LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="share-copy" onclick="copyLink()" title="Sao chép link">
+                                <i class="fas fa-link"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Article Content -->
+                    <article class="blog-content">
+                        <%- post.content %>
+                    </article>
+
+                    <!-- Tags -->
+                    <div class="mt-4 pt-4 border-top">
+                        <h6 class="fw-bold mb-3">
+                            <i class="fas fa-tags me-2"></i>Tags:
+                        </h6>
+                        <% post.tags.forEach(tag=> { %>
+                            <a href="#" class="tag-badge">
+                                <%= tag %>
+                            </a>
+                            <% }); %>
+                    </div>
+
+                    <!-- Author Info -->
+                    <div class="mt-4 pt-4 border-top">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 60px; height: 60px;">
+                                    <i class="fas fa-user text-white" style="font-size: 1.5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h6 class="mb-1 fw-bold">
+                                    <%= post.author %>
+                                </h6>
+                                <p class="text-muted mb-0">
+                                    Developer đam mê công nghệ và chia sẻ kiến thức.
+                                    Luôn tìm hiểu những xu hướng mới trong lập trình và bảo mật web.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Related Posts -->
+                    <div class="related-posts">
+                        <h5 class="fw-bold mb-4">
+                            <i class="fas fa-book-reader me-2"></i>Bài viết liên quan
+                        </h5>
+                        <div class="related-post">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="bg-success d-flex align-items-center justify-content-center rounded"
+                                        style="width: 50px; height: 50px;">
+                                        <i class="fas fa-shield-alt text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <h6 class="mb-1">
+                                        <a href="/blog/2" class="text-decoration-none text-dark">
+                                            Tìm hiểu về XSS Attack và cách phòng chống
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">20/09/2025 • 987 lượt xem</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="related-post">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="bg-info d-flex align-items-center justify-content-center rounded"
+                                        style="width: 50px; height: 50px;">
+                                        <i class="fas fa-database text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <h6 class="mb-1">
+                                        <a href="/blog/3" class="text-decoration-none text-dark">
+                                            MongoDB vs MySQL: So sánh chi tiết
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">15/09/2025 • 756 lượt xem</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="comment-section">
+                        <h5 class="fw-bold mb-4">
+                            <i class="fas fa-comments me-2"></i>Bình luận (<%= post.comments %>)
+                        </h5>
+
+                        <!-- Comment Form -->
+                        <form class="comment-form mb-4">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control" placeholder="Tên của bạn" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="email" class="form-control" placeholder="Email của bạn" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="4" placeholder="Viết bình luận của bạn..."
+                                    required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Gửi bình luận
+                            </button>
+                        </form>
+
+                        <!-- Sample Comments -->
+                        <div class="comment-item">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="comment-author">Nguyễn Văn A</div>
+                                <div class="comment-date">2 ngày trước</div>
+                            </div>
+                            <p class="mb-0">
+                                Bài viết rất hay và chi tiết! Cảm ơn bạn đã chia sẻ kiến thức bổ ích.
+                                Mình đã học được nhiều điều từ bài viết này.
+                            </p>
+                        </div>
+
+                        <div class="comment-item">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="comment-author">Trần Thị B</div>
+                                <div class="comment-date">1 tuần trước</div>
+                            </div>
+                            <p class="mb-0">
+                                Giải thích rất dễ hiểu, phù hợp cho người mới bắt đầu như mình.
+                                Có thể viết thêm về các framework khác không bạn?
+                            </p>
+                        </div>
+
+                        <div class="comment-item">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="comment-author">Lê Văn C</div>
+                                <div class="comment-date">2 tuần trước</div>
+                            </div>
+                            <p class="mb-0">
+                                Code examples rất hữu ích! Mình đã thử làm theo và thành công.
+                                Thanks bác chia sẻ! 👍
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-blog me-2"></i>My Blog
+                    </h5>
+                    <p class="text-light">
+                        Chia sẻ kiến thức, kinh nghiệm và những câu chuyện thú vị từ cuộc sống.
+                        Cảm ơn bạn đã ghé thăm blog của tôi!
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h6 class="fw-bold mb-3">Danh mục</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/blog" class="text-light text-decoration-none">Tất cả bài viết</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Lập trình</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Bảo mật</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Database</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h6 class="fw-bold mb-3">Liên kết</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-light text-decoration-none">Trang chủ</a></li>
+                        <li><a href="/about" class="text-light text-decoration-none">Giới thiệu</a></li>
+                        <li><a href="/contact" class="text-light text-decoration-none">Liên hệ</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">RSS</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4 mb-4">
+                    <h6 class="fw-bold mb-3">Theo dõi tôi</h6>
+                    <div class="d-flex gap-3 mb-3">
+                        <a href="#" class="text-light"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-github fa-lg"></i></a>
+                    </div>
+                    <p class="text-light small">
+                        <i class="fas fa-envelope me-2"></i>contact@myblog.com
+                    </p>
+                </div>
+            </div>
+            <hr class="text-light">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-light mb-0">
+                        &copy; 2025 My Blog. Được tạo bởi
+                        <i class="fas fa-heart text-danger"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        // Social sharing functions
+        function shareOnSocial(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+
+            let shareUrl = '';
+
+            switch (platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+                    break;
+            }
+
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link đã được sao chép!');
+            });
+        }
+
+        // Back to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide back to top button
+        window.addEventListener('scroll', function () {
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        // Comment form submission
+        document.querySelector('.comment-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Cảm ơn bạn đã bình luận! Bình luận sẽ được duyệt trước khi hiển thị.');
+            this.reset();
+        });
+
+        // Initialize syntax highlighting
+        Prism.highlightAll();
+
+        console.log('Blog detail page loaded successfully! 📖');
+    </script>
+    <script src="/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập/Đăng ký - Blog Community</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-logo i {
+            font-size: 3rem;
+            color: #1877f2;
+            margin-bottom: 10px;
+        }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+
+        .brand-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #f0f0f0;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 0.2rem rgba(24, 119, 242, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1877f2, #42b883);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(24, 119, 242, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1877f2;
+            color: #1877f2;
+            border-radius: 10px;
+            padding: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background: #1877f2;
+            color: white;
+        }
+
+        .toggle-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .toggle-link {
+            color: #1877f2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toggle-link:hover {
+            color: #166fe5;
+            text-decoration: underline;
+        }
+
+        .input-group-text {
+            border-right: none;
+        }
+
+        .input-group .form-control {
+            border-left: none;
+        }
+
+        .input-group-text i {
+            color: #999;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-label {
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-label i {
+            color: #1877f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <!-- Brand Header -->
+        <div class="brand-logo">
+            <i class="fas fa-blog"></i>
+            <h2 class="brand-name">Blog Community</h2>
+            <p class="brand-subtitle">Chia sẻ và kết nối</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="auth-card" id="loginCard">
+            <h3 class="form-title">Đăng nhập</h3>
+
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-user me-2"></i>Tài khoản</label>
+                    <input type="text" class="form-control" id="loginAccount" placeholder="Nhập tài khoản" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-lock me-2"></i>Mật khẩu</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-3">
+                    <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+                </button>
+            </form>
+
+            <div class="toggle-text">
+                Chưa có tài khoản?
+                <a href="#" class="toggle-link" onclick="toggleForm('register')">Đăng ký ngay</a>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="auth-card" id="registerCard" style="display: none;">
+            <h3 class="form-title">Đăng ký</h3>
+
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-user-circle me-2"></i>Họ và tên</label>
+                    <input type="text" class="form-control" id="registerName" placeholder="Nhập họ và tên của bạn"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-user me-2"></i>Tài khoản</label>
+                    <input type="text" class="form-control" id="registerAccount" placeholder="Nhập tài khoản" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-lock me-2"></i>Mật khẩu</label>
+                    <input type="password" class="form-control" id="registerPassword"
+                        placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-lock me-2"></i>Xác nhận mật khẩu</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Nhập lại mật khẩu"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-3">
+                    <i class="fas fa-user-plus me-2"></i>Đăng ký
+                </button>
+            </form>
+
+            <div class="toggle-text">
+                Đã có tài khoản?
+                <a href="#" class="toggle-link" onclick="toggleForm('login')">Đăng nhập</a>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center">
+            <a href="/" class="btn btn-outline">
+                <i class="fas fa-home me-2"></i>Về trang chủ
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle between login and register forms
+        function toggleForm(formType) {
+            const loginCard = document.getElementById('loginCard');
+            const registerCard = document.getElementById('registerCard');
+
+            if (formType === 'register') {
+                loginCard.style.display = 'none';
+                registerCard.style.display = 'block';
+            } else {
+                loginCard.style.display = 'block';
+                registerCard.style.display = 'none';
+            }
+        }
+
+        // User management functions
+        function getUsers() {
+            const users = localStorage.getItem('blogUsers');
+            return users ? JSON.parse(users) : [];
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('blogUsers', JSON.stringify(users));
+        }
+
+        function saveCurrentUser(user) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+        }
+
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+
+        // Register function
+        async function registerUser() {
+            const name = document.getElementById('registerName').value.trim();
+            const account = document.getElementById('registerAccount').value.trim();
+            const password = document.getElementById('registerPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+            try {
+                const response = await fetch('/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name,
+                        account,
+                        password,
+                        confirmPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert(data.message);
+                    document.getElementById('registerForm').reset();
+                    toggleForm('login');
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Register error:', error);
+                alert('Có lỗi xảy ra khi đăng ký!');
+            }
+
+            return false;
+        }
+
+        // Login function
+        async function loginUser() {
+            const account = document.getElementById('loginAccount').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            try {
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        account,
+                        password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert(data.message);
+                    // Redirect to blog page
+                    window.location.href = '/blog';
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Có lỗi xảy ra khi đăng nhập!');
+            }
+
+            return false;
+        }        // Event listeners
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            loginUser();
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            registerUser();
+        });
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                if (confirm(`Bạn đã đăng nhập với tài khoản ${currentUser.name}. Chuyển đến trang blog?`)) {
+                    window.location.href = '/blog';
+                }
+            }
+        });
+
+        console.log('Auth page loaded successfully! 🔐');
+    </script>
+</body>
+
+</html>
